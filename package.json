@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google-cloud/cloud-sql-connector": "^1.2.0",
+    "mysql2": "^3.6.3",
     "next": "14.0.2",
     "react": "^18",
     "react-dom": "^18",
