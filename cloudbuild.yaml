@@ -3,7 +3,7 @@ steps:
   entrypoint: pack
   args:
   - build
-  - REPOSITORY_URI
+  - us-west1-docker.pkg.dev/sohansm-project/cloud-run-source-deploy/immerse-next
   - --builder
   - gcr.io/buildpacks/builder:latest
 
