@@ -8,5 +8,5 @@ variable "project" {
   default = "sohansm-project"
 }
 variable "image" {
-  default = "us-west1-docker.pkg.dev/sohansm-project/cloud-run-source-deploy/immerse-next@sha256:b17e52992e706f2052920a673b4f1b2a402daae63dea3eec960498f98e47a951"
+  default = "us-west1-docker.pkg.dev/sohansm-project/cloud-run-source-deploy/immerse-next@sha256:701dc3364562675855ac4865b9db0a892b290f14834c3ad11911644e5dba63a1"
 }

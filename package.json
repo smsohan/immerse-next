@@ -12,6 +12,8 @@
     "@google-cloud/cloud-sql-connector": "^1.2.0",
     "mysql2": "^3.6.3",
     "next": "14.0.2",
+    "promise-mysql": "^5.2.0",
+    "promise-mysql2": "^1.0.0",
     "react": "^18",
     "react-dom": "^18",
     "redis": "^4.6.10"
