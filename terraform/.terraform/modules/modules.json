@@ -1,1 +1,1 @@
-{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"vars","Source":"./vars","Dir":""}]}
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"lb-http","Source":"registry.terraform.io/GoogleCloudPlatform/lb-http/google//modules/serverless_negs","Version":"9.3.0","Dir":".terraform/modules/lb-http/modules/serverless_negs"},{"Key":"vars","Source":"./vars","Dir":""}]}

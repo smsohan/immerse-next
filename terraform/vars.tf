@@ -13,3 +13,11 @@ variable "image" {
 variable "mysql-user" {
   default = "immerse-db-user"
 }
+
+variable "name" {
+  default = "immerse-next"
+}
+
+variable "domain" {
+  default = "todo.smsohan.com"
+}

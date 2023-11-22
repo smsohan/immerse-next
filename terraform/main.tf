@@ -7,7 +7,7 @@ terraform {
   }
 }
 provider "google" {
-  project = "sohansm-project"
+  project = var.project
 }
 
 resource "random_id" "bucket_prefix" {
@@ -36,6 +36,7 @@ resource "google_project_iam_member" "storage" {
   role    = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
   member  = "serviceAccount:service-${data.google_project.project.number}@gs-project-accounts.iam.gserviceaccount.com"
 }
+
 resource "google_storage_bucket" "tfstate" {
   name          = "${random_id.bucket_prefix.hex}-bucket-tfstate"
   force_destroy = false
