@@ -1,6 +1,6 @@
 CREATE DATABASE immerse_next;
 
-USE immerse_next;
+USE immerse_db;
 
 -- Create table
 CREATE TABLE todos (
