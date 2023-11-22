@@ -94,6 +94,10 @@ resource "google_cloud_run_v2_service" "immerse-next" {
         value = google_sql_database.db.name
       }
       env {
+        name = "MYSQL_USER"
+        value = var.mysql-user
+      }
+      env {
         name = "MYSQL_PASSWORD_FILE"
         value = "/secrets/immerse-db-password"
       }

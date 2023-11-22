@@ -54,6 +54,12 @@ resource "google_sql_user" "iam_service_account_user" {
   type     = "CLOUD_IAM_SERVICE_ACCOUNT"
 }
 
+resource "google_sql_user" "immerse-db-user" {
+  name     = var.mysql-user
+  instance = google_sql_database_instance.instance.name
+}
+
+
 resource "google_secret_manager_secret" "immerse_db_password" {
   secret_id = "immerse-db-password"
   replication {
@@ -73,11 +79,11 @@ resource "google_secret_manager_secret_iam_member" "default" {
   depends_on = [google_secret_manager_secret.immerse_db_password]
 }
 
-# resource "google_project_iam_member" "cloud_run_access" {
-#   project = var.project
-#   role = "roles/cloudsql.client"
-#   member = "serviceAccount:${var.service-account}"
-# }
+resource "google_project_iam_member" "cloud_run_access" {
+  project = var.project
+  role = "roles/cloudsql.client"
+  member = "serviceAccount:${var.service-account}"
+}
 
 
 ## Uncomment this block after adding a valid DNS suffix

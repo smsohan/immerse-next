@@ -4,20 +4,22 @@ import { readFile } from 'fs/promises';
 import { createPool } from 'mysql2';
 
 const createTcpPool = async function(){
-  const password = (await readFile(env.MYSQL_PASSWORD_FILE!, {encoding: "utf-8"})).toString();
-  const port = process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
+  const password = (await readFile(env.MYSQL_PASSWORD_FILE!, {encoding: "utf-8"})).toString().trim();
+
   let dbConfig: any = {
     user: process.env.MYSQL_USER,
     password: password,
     database: env.MYSQL_DB
   };
+
   if(process.env.MYSQL_SOCKET){
     dbConfig.socketPath = process.env.MYSQL_SOCKET;
   } else {
+    const port = process.env.MYSQL_PORT ? parseInt(process.env.MYSQL_PORT, 10) : 3306
     dbConfig = {
       ...dbConfig,
       host: process.env.MYSQL_HOST,
-      port: parseInt(process.env.MYSQL_PORT!, 10)
+      port: port
     }
   }
   return createPool(dbConfig);
