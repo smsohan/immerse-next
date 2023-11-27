@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
-type NewToDoProps = {
-    onCreate: (err: Error | undefined, todo: Todo | undefined) => {}
+export interface NewToDoProps {
+    onCreate: (err: Error | undefined, todo: Todo | undefined) => void
 }
 export default function NewTodo(props: NewToDoProps) {
     const [title, setTitle] = useState<string>("");
     const [id, setId] = useState<undefined | number>(undefined);
 
-    const addTodo = async (e: SubmitEvent) => {
+    const addTodo = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const todo: Todo = { title };
         const response = await fetch("/api/todos/create", {
