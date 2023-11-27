@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 
-export default function NewTodo() {
+type NewToDoProps = {
+    onCreate: (err: Error | undefined, todo: Todo | undefined) => {}
+}
+export default function NewTodo(props: NewToDoProps) {
     const [title, setTitle] = useState<string>("");
     const [id, setId] = useState<undefined | number>(undefined);
 
     const addTodo = async (e: SubmitEvent) => {
         e.preventDefault();
-        alert("Creating " + title);
         const todo: Todo = { title };
         const response = await fetch("/api/todos/create", {
             method: "post",
@@ -17,7 +19,10 @@ export default function NewTodo() {
         });
         if(response.status === 200){
             const createdTodo = await response.json() as Todo;
-            setId(createdTodo.id);
+            props.onCreate(undefined, createdTodo);
+        } else {
+            const error = await response.json() as Error;
+            props.onCreate(error, undefined);
         }
     }
 
