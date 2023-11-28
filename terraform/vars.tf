@@ -8,7 +8,7 @@ variable "project" {
   default = "sohansm-project"
 }
 variable "image" {
-  default = "us-west1-docker.pkg.dev/sohansm-project/cloud-run-source-deploy/immerse-next@sha256:a09fb8d0220e8657640b55a2c11fedc1aa787a4cc52ac0fef7dc414eae4b700b"
+  default = "us-west1-docker.pkg.dev/sohansm-project/cloud-run-source-deploy/immerse-next@sha256:e75899315b3dd82ca2972b9914a594190de54b4ae2bc424149569df1df08bbb9"
 }
 variable "mysql-user" {
   default = "immerse-db-user"
