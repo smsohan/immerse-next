@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import pool from '../../../app/db';
 import { TodoService } from '@/app/todo_service';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Todo[] | Error>) {
