@@ -1,11 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { TodoService } from '@/app/todo_service';
 import { Message } from '@/app/publish';
+import { buffer } from 'stream/consumers';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Object | Error>) {
   try {
-    const message = req.body as Message;
-    const todos = await TodoService.process(message);
+    const data = req.body.data as Buffer;
+    const message = JSON.parse(data.toString("base64")) as Message;
+    await TodoService.process(message);
     res.status(200).json({});
   } catch (error) {
     if (error instanceof Error) {

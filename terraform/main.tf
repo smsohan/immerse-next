@@ -54,12 +54,11 @@ resource "google_storage_bucket" "tfstate" {
   ]
 }
 
-resource "google_pubsub_topic_iam_binding" "pubsub_binding" {
-  topic  = google_pubsub_topic.todos_topic.name
-  role   = "roles/pubsub.publisher"
-  members = [
-    "serviceAccount:${var.service-account}"
-  ]
+resource "google_cloud_run_service_iam_binding" "invoker" {
+  location = google_cloud_run_v2_service.immerse-next.location
+  service  = google_cloud_run_v2_service.immerse-next.name
+  role     = "roles/run.invoker"
+  members  = ["serviceAccount:${var.service-account}"]
 }
 
 resource "google_cloud_run_v2_service" "immerse-next" {
@@ -155,5 +154,6 @@ resource "google_cloud_run_v2_service" "immerse-next" {
     percent         = 100
      type = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
   }
+  depends_on = [ google_pubsub_topic_iam_binding.pubsub_binding ]
 
 }
