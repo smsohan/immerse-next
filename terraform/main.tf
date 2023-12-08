@@ -54,6 +54,14 @@ resource "google_storage_bucket" "tfstate" {
   ]
 }
 
+resource "google_pubsub_topic_iam_binding" "pubsub_binding" {
+  topic  = google_pubsub_topic.todos_topic.name
+  role   = "roles/pubsub.publisher"
+  members = [
+    "serviceAccount:${var.service-account}"
+  ]
+}
+
 resource "google_cloud_run_v2_service" "immerse-next" {
   name = "immerse-next"
   location = var.region
@@ -105,6 +113,14 @@ resource "google_cloud_run_v2_service" "immerse-next" {
       env {
         name = "MYSQL_SOCKET"
         value = "/cloudsql/${google_sql_database_instance.instance.connection_name}"
+      }
+      env {
+        name = "PROJECT_ID"
+        value = var.project
+      }
+      env {
+        name = "PUBSUB_TOPIC"
+        value = google_pubsub_topic.todos_topic.name
       }
     }
     vpc_access{

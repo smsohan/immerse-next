@@ -1,5 +1,6 @@
 import { ResultSetHeader } from "mysql2/promise";
 import pool from "./db";
+import publish, { Message } from "./publish";
 
 export class TodoService {
 
@@ -29,12 +30,18 @@ export class TodoService {
                 return;
             }
 
-            pool.execute<ResultSetHeader>("INSERT INTO todos (title) VALUES (?)", [todo.title], (err, res) => {
+            pool.execute<ResultSetHeader>("INSERT INTO todos (title) VALUES (?)", [todo.title], async (err, res) => {
                 if (err) {
                     reject(err);
                     return;
                 }
                 todo.id = res.insertId;
+                await publish({
+                    objectType: "Todo",
+                    eventType: "create",
+                    title: todo.title
+                })
+                console.log("After publish");
                 resolve(todo);
             });
         });
@@ -71,5 +78,9 @@ export class TodoService {
                 resolve(todo);
             });
         });
+    }
+
+    static async process(message: Message): Promise<void> {
+        console.log("got message: " + JSON.stringify(message));
     }
 }

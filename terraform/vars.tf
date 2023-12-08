@@ -8,7 +8,7 @@ variable "project" {
   default = "sohansm-project"
 }
 variable "image" {
-  default = "us-west1-docker.pkg.dev/sohansm-project/cloud-run-source-deploy/immerse-next@sha256:e75899315b3dd82ca2972b9914a594190de54b4ae2bc424149569df1df08bbb9"
+  default = "us-west1-docker.pkg.dev/sohansm-project/cloud-run-source-deploy/immerse-next@sha256:a4547477b69eced9ea4ed6a60f63cb1e3634db60bd56cd05b76dfbf58ceb67f7"
 }
 variable "mysql-user" {
   default = "immerse-db-user"
@@ -20,4 +20,8 @@ variable "name" {
 
 variable "domain" {
   default = "todo.smsohan.com"
+}
+
+variable "pubsub_listen_path" {
+  default = "/api/todos/listen"
 }
