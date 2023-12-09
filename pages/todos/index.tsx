@@ -77,7 +77,11 @@ export default function Todos() {
             {todos.map(todo =>
                 <Todo key={todo.id} todo={todo} onDelete={todoDeleted} onEdit={editTodo} />
             )}
-            <div className='mt-4'>This page is visited {visits} times</div>
+            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-2 p'>
+                <div className="col-span-2 text-center">
+                    This page has been visited {visits} times
+                </div>
+            </div>
         </div>
     </div>)
 }

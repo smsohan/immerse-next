@@ -10,6 +10,10 @@ provider "google" {
   project = var.project
 }
 
+provider "google-beta" {
+  project = var.project
+}
+
 resource "random_id" "bucket_prefix" {
   byte_length = 8
 }
@@ -62,15 +66,32 @@ resource "google_cloud_run_service_iam_binding" "invoker" {
 }
 
 resource "google_cloud_run_v2_service" "immerse-next" {
-  name = "immerse-next"
+  name = var.name
   location = var.region
+  provider = google-beta
   launch_stage = "BETA"
-
   template {
     service_account = var.service-account
 
     containers {
+      name = "nginx"
+      image = var.nginx-image
+      ports {
+        name = "http1"
+        container_port = 8080
+      }
+      resources {
+        limits = {
+          cpu = "1000m"
+          memory = "512Mi"
+        }
+      }
+    }
+
+    containers {
+      name = var.name
       image = var.image
+      depends_on = ["nginx"]
 
       volume_mounts {
         name       = "cloudsql"
@@ -87,6 +108,10 @@ resource "google_cloud_run_v2_service" "immerse-next" {
           cpu = "1000m"
           memory = "512Mi"
         }
+      }
+      env {
+        name = "PORT"
+        value = "8888"
       }
       env {
         name = "REDIS_HOST"
