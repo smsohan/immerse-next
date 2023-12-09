@@ -17,6 +17,7 @@ This is an over-architected minimalist to-do list application that uses the foll
 - [x] Google Cloud Pub/Sub - for publishing changes to the data
 - [x] Google Cloud BigQuery - for storing changelog
 - [x] VPC - for safely connecting Cloud Run to other services
+- [x] Ngix - for a multi-container setup
 
 ## Flow of Data
 
