@@ -26,11 +26,11 @@ export default function Todo(props: TodoProps) {
         props.onEdit(props.todo);
     }
     return (
-        <div className="grid grid-cols-2 gap-4" key={props.todo.id}>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-2 p-2" key={props.todo.id}>
             <div className="p-1">
                 #{props.todo.id} {props.todo.title}
             </div>
-            <div>
+            <div className="p-1 text-blue-600 hover-underline text-right">
                 <a className="cursor-pointer mr-4" onClick={editTodo}>Edit</a>
                 <a className="cursor-pointer" onClick={deleteTodo}>Delete</a>
             </div>

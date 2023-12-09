@@ -28,8 +28,8 @@ export default function NewTodo(props: NewToDoProps) {
     }
 
     return (
-        <div>
-            <form className='w-full max-w-sm' onSubmit={e => addTodo(e)}>
+        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-1 p-2'>
+            <form className='w-full col-span-2' onSubmit={e => addTodo(e)}>
                 <div className='flex items-center border-b border-teal-500 py-2'>
                     <input className="appearance-none bg-transparent border-none w-full mr-3 py-1 px-2 leading-tight focus:outline-none" type="text"
                         onChange={e => setTitle(e.target.value)} value={title} placeholder='e.g. call the phamacy'

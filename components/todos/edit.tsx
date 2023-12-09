@@ -8,6 +8,10 @@ export interface EditTodoProps {
 export default function EditTodo(props: EditTodoProps) {
     const [title, setTitle] = useState<string>(props.todo.title);
 
+    useEffect(()=> {
+        setTitle(props.todo.title);
+    }, [props.todo.title])
+
     const updateTodo = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const response = await fetch("/api/todos/" + props.todo.id, {
@@ -32,8 +36,8 @@ export default function EditTodo(props: EditTodoProps) {
 
     return (
         <div>
-            <form className='w-full max-w-sm' onSubmit={e => updateTodo(e)}>
-                <div className='flex items-center border-b border-teal-500 py-2'>
+            <form className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-1 p-2' onSubmit={e => updateTodo(e)}>
+                <div className='flex col-span-2 items-center border-b border-teal-500 py-2'>
                     <input className="appearance-none bg-transparent border-none w-full mr-3 py-1 px-2 leading-tight focus:outline-none" type="text"
                         onChange={e => setTitle(e.target.value)} value={title} placeholder='e.g. call the phamacy'
                         aria-label="Todo title"/>

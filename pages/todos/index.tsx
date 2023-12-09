@@ -42,6 +42,7 @@ export default function Todos() {
     }
 
     const editTodo = (todo: Todo): void => {
+        console.log("Editing " + todo.id);
         setTodoForEdit(todo);
     }
 
@@ -61,6 +62,7 @@ export default function Todos() {
         }
     }
 
+    console.log("Rendering " + todoForEdit?.title);
     return (<div className='m-4'>
         <h1 className='text-3xl font-bold mb-8'>Todos</h1>
         <div>{error && error.message}</div>
@@ -71,9 +73,11 @@ export default function Todos() {
                     <NewTodo onCreate={todoCreated}></NewTodo>
             }
         </div>
-        {todos.map(todo =>
-            <Todo key={todo.id} todo={todo} onDelete={todoDeleted} onEdit={editTodo} />
-        )}
-        <div className='mt-4'>This page is visited {visits} times</div>
+        <div>
+            {todos.map(todo =>
+                <Todo key={todo.id} todo={todo} onDelete={todoDeleted} onEdit={editTodo} />
+            )}
+            <div className='mt-4'>This page is visited {visits} times</div>
+        </div>
     </div>)
 }

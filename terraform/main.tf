@@ -69,7 +69,6 @@ resource "google_cloud_run_v2_service" "immerse-next" {
   template {
     service_account = var.service-account
 
-    # Use RevisionTemplate instead of deprecated template block
     containers {
       image = var.image
 
