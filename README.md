@@ -1,5 +1,7 @@
 ## About
 
+![Screenshot](./docs/screenshot.png)
+
 This is an over-architected minimalist to-do list application that uses the following:
 
 - [x] Next.js with TypeScript and TailwindCSS
