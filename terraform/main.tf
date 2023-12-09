@@ -121,6 +121,18 @@ resource "google_cloud_run_v2_service" "immerse-next" {
         name = "PUBSUB_TOPIC"
         value = google_pubsub_topic.todos_topic.name
       }
+      env {
+        name = "BQ_API_ENDPOINT"
+        value = ""
+      }
+      env {
+        name = "BQ_DATASET_ID"
+        value = google_bigquery_dataset.dataset.dataset_id
+      }
+      env {
+        name = "BQ_TABLE_ID"
+        value = google_bigquery_table.table.table_id
+      }
     }
     vpc_access{
       network_interfaces {
@@ -154,6 +166,8 @@ resource "google_cloud_run_v2_service" "immerse-next" {
     percent         = 100
      type = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
   }
-  depends_on = [ google_pubsub_topic_iam_binding.pubsub_binding ]
+  depends_on = [ google_pubsub_topic_iam_binding.pubsub_binding,
+  google_project_iam_member.bq_access_sa,
+  google_project_iam_member.bq_job_user_sa ]
 
 }

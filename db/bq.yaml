@@ -1,0 +1,31 @@
+projects:
+- id: sohansm-project
+  datasets:
+    - id: todos
+      tables:
+        - id: messages
+          columns:
+            - name: messageId
+              type: STRING
+              mode: REQUIRED
+            - name: objectType
+              type: STRING
+              mode: REQUIRED
+            - name: eventType
+              type: STRING
+              mode: REQUIRED
+            - name: id
+              mode: REQUIRED
+              type: INTEGER
+            - name: title
+              type: STRING
+            - name: createdAt
+              type: TIMESTAMP
+          data:
+            - messageId: some-guid
+              objectType: Todo
+              eventType: create
+              id: 1
+              title: Dummy to-do
+              createdAt: '2022-01-02T18:00:00'
+

@@ -10,6 +10,7 @@
     "sub": "node app/subscribe.js"
   },
   "dependencies": {
+    "@google-cloud/bigquery": "^7.3.0",
     "@google-cloud/cloud-sql-connector": "^1.2.0",
     "@google-cloud/pubsub": "^4.0.7",
     "dotenv": "^16.3.1",

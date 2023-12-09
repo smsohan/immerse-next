@@ -39,8 +39,9 @@ export class TodoService {
                 await publish({
                     objectType: "Todo",
                     eventType: "create",
+                    id: todo.id,
                     title: todo.title
-                })
+                });
                 console.log("After publish");
                 resolve(todo);
             });
@@ -49,11 +50,17 @@ export class TodoService {
 
     static async delete(id: number): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            pool.execute<ResultSetHeader>("DELETE FROM todos WHERE id=?", [id], (err, res) => {
+            pool.execute<ResultSetHeader>("DELETE FROM todos WHERE id=?", [id], async(err, res) => {
                 if (err) {
                     reject(err);
                     return;
                 }
+                await publish({
+                    objectType: "Todo",
+                    eventType: "delete",
+                    id: id
+                });
+
                 resolve();
             });
         });
@@ -70,17 +77,19 @@ export class TodoService {
                 return;
             }
 
-            pool.execute<ResultSetHeader>("UPDATE todos SET title=? WHERE id=?", [todo.title, todo.id], (err, res) => {
+            pool.execute<ResultSetHeader>("UPDATE todos SET title=? WHERE id=?", [todo.title, todo.id], async(err, res) => {
                 if (err) {
                     reject(err);
                     return;
                 }
+                await publish({
+                    objectType: "Todo",
+                    eventType: "update",
+                    id: todo.id!,
+                    title: todo.title
+                });
                 resolve(todo);
             });
         });
-    }
-
-    static async process(message: Message): Promise<void> {
-        console.log("got message: " + JSON.stringify(message));
     }
 }
