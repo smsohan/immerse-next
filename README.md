@@ -18,6 +18,7 @@ This is an over-architected minimalist to-do list application that uses the foll
 - [x] Google Cloud BigQuery - for storing changelog
 - [x] VPC - for safely connecting Cloud Run to other services
 - [x] Nginx - for a multi-container setup
+- [x] Prometheus - for sending metrics to Google Managed Promethous using a sidecar
 
 ## Flow of Data
 
@@ -59,4 +60,7 @@ $ docker run -v $PWD/db:/db -d -p9050:9050 -p9060:9060 -it ghcr.io/goccy/bigquer
 
 # Query the Big Query emulator
 $ bq --api http://0.0.0.0:9050 query --project_id sohansm-project "select * from todos.messages where id = 1"
+
+# Start the prometheus collector
+$ docker run -p 9090:9090 prom/prometheus
 ```

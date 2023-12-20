@@ -158,6 +158,13 @@ resource "google_cloud_run_v2_service" "immerse-next" {
         value = google_bigquery_table.table.table_id
       }
     }
+
+    containers {
+      name = "collector"
+      image = "us-docker.pkg.dev/cloud-ops-agents-artifacts/cloud-run-gmp-sidecar/cloud-run-gmp-sidecar:1.0.0"
+      depends_on = [var.name]
+    }
+
     vpc_access{
       network_interfaces {
         network = google_compute_network.vpc.name
@@ -186,12 +193,17 @@ resource "google_cloud_run_v2_service" "immerse-next" {
 
   }
 
+
+
   traffic {
     percent         = 100
      type = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
   }
   depends_on = [ google_pubsub_topic_iam_binding.pubsub_binding,
-  google_project_iam_member.bq_access_sa,
-  google_project_iam_member.bq_job_user_sa ]
+    google_project_iam_member.bq_access_sa,
+    google_project_iam_member.bq_job_user_sam,
+    google_project_service.monitoring,
+    google_project_iam_binding.metrics
+  ]
 
 }

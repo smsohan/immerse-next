@@ -33,7 +33,6 @@ export default function Todos() {
     }
 
     const todoDeleted = (err: Error | undefined, todo: Todo | undefined) => {
-        console.log("todoDeleted: " + err?.message + todo?.id)
         setError(err);
 
         if (todo) {
@@ -42,7 +41,6 @@ export default function Todos() {
     }
 
     const editTodo = (todo: Todo): void => {
-        console.log("Editing " + todo.id);
         setTodoForEdit(todo);
     }
 
@@ -62,7 +60,6 @@ export default function Todos() {
         }
     }
 
-    console.log("Rendering " + todoForEdit?.title);
     return (<div className='m-4'>
         <h1 className='text-3xl font-bold mb-8'>Todos</h1>
         <div>{error && error.message}</div>
