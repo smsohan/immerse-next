@@ -1,0 +1,8 @@
+apiVersion: monitoring.googleapis.com/v1beta
+kind: RunMonitoring
+metadata:
+  name: run-gmp-sidecar
+spec:
+  endpoints:
+  - port: 8888
+    interval: 30s

@@ -63,4 +63,10 @@ $ bq --api http://0.0.0.0:9050 query --project_id sohansm-project "select * from
 
 # Start the prometheus collector
 $ docker run -p 9090:9090 prom/prometheus
+
+# Force the prometheus collector config update
+$ terraform taint google_secret_manager_secret.prometheus_config
+
+# Read the latest config
+$ gcloud secrets versions access latest --secret=prometheus_config
 ```

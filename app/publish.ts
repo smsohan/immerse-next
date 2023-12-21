@@ -9,7 +9,7 @@ export interface Message {
     createdAt?: Date
     messageId?: string
 }
-export default async function(message: Message): Promise<void>{
+export default async function publish(message: Message): Promise<void>{
     const pubsub = new PubSub({projectId: process.env.PROJECT_ID});
     const topic = await pubsub.topic(process.env.PUBSUB_TOPIC);
     message.createdAt = new Date();

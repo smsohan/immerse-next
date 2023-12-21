@@ -8,7 +8,7 @@ variable "project" {
   default = "sohansm-project"
 }
 variable "image" {
-  default = "us-west1-docker.pkg.dev/sohansm-project/cloud-run-source-deploy/immerse-next@sha256:99a8e3c13a953b13f24aaf9ef18594e1aca3af544e5e9328ac57ce7a75b5cfe5"
+  default = "us-west1-docker.pkg.dev/sohansm-project/cloud-run-source-deploy/immerse-next@sha256:d872fc73547ec4ea53975bfc9b23c00b87eeca3f5f27b762c977fb28b017fe76"
 }
 variable "nginx-image" {
   default = "us-west1-docker.pkg.dev/sohansm-project/nginx/nginx@sha256:5700906e9effbb827aaba44ba6ab2cc8d6e6b923b027f697f40c50406666293a"
@@ -16,19 +16,15 @@ variable "nginx-image" {
 variable "mysql-user" {
   default = "immerse-db-user"
 }
-
 variable "name" {
   default = "immerse-next"
 }
-
 variable "underscored_name" {
   default = "immerse_next"
 }
-
 variable "domain" {
   default = "todo.smsohan.com"
 }
-
 variable "pubsub_listen_path" {
   default = "/api/todos/listen"
 }
