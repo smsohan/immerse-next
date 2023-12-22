@@ -62,7 +62,7 @@ $ docker run -v $PWD/db:/db -d -p9050:9050 -p9060:9060 -it ghcr.io/goccy/bigquer
 $ bq --api http://0.0.0.0:9050 query --project_id sohansm-project "select * from todos.messages where id = 1"
 
 # Start the prometheus collector
-$ docker run -p 9090:9090 prom/prometheus
+$ docker run -d -p 9090:9090 --rm --name prom-dev --add-host host.docker.internal:host-gateway prom-dev
 
 # Force the prometheus collector config update
 $ terraform taint google_secret_manager_secret.prometheus_config

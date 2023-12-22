@@ -72,6 +72,7 @@ resource "google_cloud_run_v2_service" "immerse-next" {
   launch_stage = "BETA"
   template {
     service_account = var.service-account
+    execution_environment = "EXECUTION_ENVIRONMENT_GEN2"
 
     containers {
       name = "nginx"
@@ -86,12 +87,21 @@ resource "google_cloud_run_v2_service" "immerse-next" {
           memory = "512Mi"
         }
       }
+
     }
 
     containers {
       name = var.name
       image = var.image
       depends_on = ["nginx"]
+
+      # startup_probe {
+      #   http_get {
+      #     path = "/api/ready"
+      #   }
+      #   initial_delay_seconds = 10
+      #   timeout_seconds = 30
+      # }
 
       volume_mounts {
         name       = "cloudsql"
@@ -105,8 +115,8 @@ resource "google_cloud_run_v2_service" "immerse-next" {
 
       resources {
         limits = {
-          cpu = "1000m"
-          memory = "512Mi"
+          cpu = "2000m"
+          memory = "1Gi"
         }
       }
       env {
@@ -163,10 +173,19 @@ resource "google_cloud_run_v2_service" "immerse-next" {
       name = "collector"
       image = "us-docker.pkg.dev/cloud-ops-agents-artifacts/cloud-run-gmp-sidecar/cloud-run-gmp-sidecar:1.0.0"
       depends_on = [var.name]
+
+      resources {
+        limits = {
+          cpu = "1000m"
+          memory = "512Mi"
+        }
+      }
+
       volume_mounts {
         name       = "prometheus_config"
         mount_path = "/etc/rungmp/"
       }
+
     }
 
     vpc_access{
@@ -206,6 +225,8 @@ resource "google_cloud_run_v2_service" "immerse-next" {
         }
       }
     }
+
+
 
   }
 
