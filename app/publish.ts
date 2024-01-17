@@ -11,7 +11,7 @@ export interface Message {
 }
 export default async function publish(message: Message): Promise<void>{
     const pubsub = new PubSub({projectId: process.env.PROJECT_ID});
-    const topic = await pubsub.topic(process.env.PUBSUB_TOPIC);
+    const [topic] = await pubsub.topic(process.env.PUBSUB_TOPIC).get({autoCreate: true})
     message.createdAt = new Date();
     console.log("publishing "+ JSON.stringify(message));
     const messageId = await topic.publishMessage({data: Buffer.from(JSON.stringify(message))});

@@ -37,6 +37,9 @@ Browser
 ## Useful commands
 
 ```bash
+# bring up nginx, mysql, redis, bq emulator, and promethous collector
+$ docker-compose up -d
+
 # Connect to CloudSQL from local
 $ gcloud beta sql connect immerse-db-instance -u immerse-db-user
 
@@ -55,14 +58,8 @@ $ $(gcloud beta emulators pubsub env-init)
 # Build the container image
 $ gcloud builds submit --config cloudbuild.yaml
 
-# Run the Big Query emulator
-$ docker run -v $PWD/db:/db -d -p9050:9050 -p9060:9060 -it ghcr.io/goccy/bigquery-emulator:latest --project=sohansm-project --data-from-yaml=/db/bq.yaml
-
 # Query the Big Query emulator
 $ bq --api http://0.0.0.0:9050 query --project_id sohansm-project "select * from todos.messages where id = 1"
-
-# Start the prometheus collector
-$ docker run -d -p 9090:9090 --rm --name prom-dev --add-host host.docker.internal:host-gateway prom-dev
 
 # Force the prometheus collector config update
 $ terraform taint google_secret_manager_secret.prometheus_config

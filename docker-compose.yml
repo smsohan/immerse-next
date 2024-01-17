@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: rootroot
+      MYSQL_DATABASE: immerse_next
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/db:/var/lib/mysql
+  bigquery-emulator:
+    image: ghcr.io/goccy/bigquery-emulator:latest
+    volumes:
+      - "./db:/db"
+    ports:
+      - "0.0.0.0:9050:9050"
+      - "0.0.0.0:9060:9060"
+    command: |
+      --project=sohansm-project --data-from-yaml=/db/bq.yaml
+  prometheus-collector:
+    build: ./dev/prometheus
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "9090:9090"
+  nginx:
+    build: ./dev/nginx
+    volumes:
+      - ./dev/nginx/default.dev.conf:/etc/nginx/conf.d/default.conf
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8080:8080"
+  pubsub:
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators
+    volumes:
+      - "dev/pubsub:/root/.config/gcloud/emulators/pubsub"
+    command: |
+      gcloud beta emulators pubsub start --host-port=0.0.0.0:8085 --project=sohansm-project
+    ports:
+      - "0.0.0.0:8085:8085"

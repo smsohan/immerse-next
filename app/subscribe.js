@@ -3,8 +3,8 @@ require('dotenv').config();
 
 (async function subscribe(){
     const pubsub = new PubSub({projectId: process.env.PROJECT_ID});
-    const topic = await pubsub.topic(process.env.PUBSUB_TOPIC);
-    const sub = await topic.subscription(process.env.PUBSUB_SUBSCRIPTION);
+    const [topic] = await pubsub.topic(process.env.PUBSUB_TOPIC).get({autoCreate: true});
+    const [sub] = await topic.subscription(process.env.PUBSUB_SUBSCRIPTION).get({autoCreate: true});
 
     console.log("Listening...");
     sub.on("message", (message) => {
