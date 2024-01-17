@@ -77,41 +77,41 @@ resource "google_cloud_run_v2_service" "immerse-next" {
     # labels = {
     #    "run.googleapis.com/startupProbeType" = "Default"
     # }
-    # containers {
-    #   name = "nginx"
-    #   image = var.nginx-image
-    #   ports {
-    #     name = "http1"
-    #     container_port = 8080
-    #   }
-    #   resources {
-    #     limits = {
-    #       cpu = "1000m"
-    #       memory = "512Mi"
-    #     }
-    #   }
-    #   startup_probe {
-    #     timeout_seconds = 240
-    #     period_seconds = 240
-    #     failure_threshold = 1
-    #     tcp_socket {
-    #       port = 8080
-    #     }
-    #   }
-
-    # }
-
     containers {
-      name = var.name
-      image = var.image
-      # depends_on = ["nginx"]
-
+      name = "nginx"
+      depends_on = [ var.name ]
+      image = var.nginx-image
+      ports {
+        name = "http1"
+        container_port = 8080
+      }
+      resources {
+        limits = {
+          cpu = "1000m"
+          memory = "512Mi"
+        }
+      }
       startup_probe {
         timeout_seconds = 240
         period_seconds = 240
         failure_threshold = 1
         tcp_socket {
           port = 8080
+        }
+      }
+
+    }
+
+    containers {
+      name = var.name
+      image = var.image
+
+      startup_probe {
+        timeout_seconds = 240
+        period_seconds = 240
+        failure_threshold = 1
+        tcp_socket {
+          port = 8888
         }
       }
 
@@ -131,10 +131,10 @@ resource "google_cloud_run_v2_service" "immerse-next" {
           memory = "1Gi"
         }
       }
-      # env {
-      #   name = "PORT"
-      #   value = "8888"
-      # }
+      env {
+        name = "PORT"
+        value = "8888"
+      }
       env {
         name = "REDIS_HOST"
         value = google_redis_instance.redis.host
@@ -181,24 +181,24 @@ resource "google_cloud_run_v2_service" "immerse-next" {
       }
     }
 
-    # containers {
-    #   name = "collector"
-    #   image = "us-docker.pkg.dev/cloud-ops-agents-artifacts/cloud-run-gmp-sidecar/cloud-run-gmp-sidecar:1.0.0"
-    #   depends_on = [var.name]
+    containers {
+      name = "collector"
+      image = "us-docker.pkg.dev/cloud-ops-agents-artifacts/cloud-run-gmp-sidecar/cloud-run-gmp-sidecar:1.0.0"
+      depends_on = [var.name]
 
-    #   resources {
-    #     limits = {
-    #       cpu = "1000m"
-    #       memory = "512Mi"
-    #     }
-    #   }
+      resources {
+        limits = {
+          cpu = "1000m"
+          memory = "512Mi"
+        }
+      }
 
-    #   volume_mounts {
-    #     name       = "prometheus_config"
-    #     mount_path = "/etc/rungmp/"
-    #   }
+      volume_mounts {
+        name       = "prometheus_config"
+        mount_path = "/etc/rungmp/"
+      }
 
-    # }
+    }
 
     vpc_access{
       network_interfaces {
