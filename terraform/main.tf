@@ -65,6 +65,7 @@ resource "google_cloud_run_service_iam_binding" "invoker" {
   members  = ["serviceAccount:${var.service-account}"]
 }
 
+#run.googleapis.com/startupProbeType: Default
 resource "google_cloud_run_v2_service" "immerse-next" {
   name = var.name
   location = var.region
@@ -73,35 +74,46 @@ resource "google_cloud_run_v2_service" "immerse-next" {
   template {
     service_account = var.service-account
     execution_environment = "EXECUTION_ENVIRONMENT_GEN2"
+    # labels = {
+    #    "run.googleapis.com/startupProbeType" = "Default"
+    # }
+    # containers {
+    #   name = "nginx"
+    #   image = var.nginx-image
+    #   ports {
+    #     name = "http1"
+    #     container_port = 8080
+    #   }
+    #   resources {
+    #     limits = {
+    #       cpu = "1000m"
+    #       memory = "512Mi"
+    #     }
+    #   }
+    #   startup_probe {
+    #     timeout_seconds = 240
+    #     period_seconds = 240
+    #     failure_threshold = 1
+    #     tcp_socket {
+    #       port = 8080
+    #     }
+    #   }
 
-    containers {
-      name = "nginx"
-      image = var.nginx-image
-      ports {
-        name = "http1"
-        container_port = 8080
-      }
-      resources {
-        limits = {
-          cpu = "1000m"
-          memory = "512Mi"
-        }
-      }
-
-    }
+    # }
 
     containers {
       name = var.name
       image = var.image
-      depends_on = ["nginx"]
+      # depends_on = ["nginx"]
 
-      # startup_probe {
-      #   http_get {
-      #     path = "/api/ready"
-      #   }
-      #   initial_delay_seconds = 10
-      #   timeout_seconds = 30
-      # }
+      startup_probe {
+        timeout_seconds = 240
+        period_seconds = 240
+        failure_threshold = 1
+        tcp_socket {
+          port = 8080
+        }
+      }
 
       volume_mounts {
         name       = "cloudsql"
@@ -119,10 +131,10 @@ resource "google_cloud_run_v2_service" "immerse-next" {
           memory = "1Gi"
         }
       }
-      env {
-        name = "PORT"
-        value = "8888"
-      }
+      # env {
+      #   name = "PORT"
+      #   value = "8888"
+      # }
       env {
         name = "REDIS_HOST"
         value = google_redis_instance.redis.host
@@ -169,24 +181,24 @@ resource "google_cloud_run_v2_service" "immerse-next" {
       }
     }
 
-    containers {
-      name = "collector"
-      image = "us-docker.pkg.dev/cloud-ops-agents-artifacts/cloud-run-gmp-sidecar/cloud-run-gmp-sidecar:1.0.0"
-      depends_on = [var.name]
+    # containers {
+    #   name = "collector"
+    #   image = "us-docker.pkg.dev/cloud-ops-agents-artifacts/cloud-run-gmp-sidecar/cloud-run-gmp-sidecar:1.0.0"
+    #   depends_on = [var.name]
 
-      resources {
-        limits = {
-          cpu = "1000m"
-          memory = "512Mi"
-        }
-      }
+    #   resources {
+    #     limits = {
+    #       cpu = "1000m"
+    #       memory = "512Mi"
+    #     }
+    #   }
 
-      volume_mounts {
-        name       = "prometheus_config"
-        mount_path = "/etc/rungmp/"
-      }
+    #   volume_mounts {
+    #     name       = "prometheus_config"
+    #     mount_path = "/etc/rungmp/"
+    #   }
 
-    }
+    # }
 
     vpc_access{
       network_interfaces {
