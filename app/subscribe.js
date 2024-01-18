@@ -27,6 +27,7 @@ require('dotenv').config();
         })
 
         console.log(`Received response status: ${response.status}`);
+        message.ack();
     });
     sub.on("error", (error) => {
         console.error("Failed to start subscription " + error);
