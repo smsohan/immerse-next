@@ -15,6 +15,8 @@ export default class TodoEventHandler {
 
         const bigquery = new BigQuery(options);
 
+        console.log(`Inserting into ${options.apiEndpoint} data: ${JSON.stringify(message)} `)
+
         await bigquery.dataset(process.env.BQ_DATASET_ID).
             table(process.env.BQ_TABLE_ID).
             insert([message]);

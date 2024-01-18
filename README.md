@@ -12,6 +12,7 @@ flowchart TB
     prom(Prometheius Collector) -- /api/metrics --> app(Next.JS App)
     end
     app -- View Stats --> redis(Redis Memorystore)
+    app -- Passwords / Promethous Config --> SM(Secret Manager)
     app -- Todos DB --> SQL(MySQL Cloud SQL)
     PubSub -- /api/todos/listen --> app
     app -- publish events --> PubSub
