@@ -13,7 +13,7 @@ services:
       - "3306:3306"
     volumes:
       - ./data/db:/var/lib/mysql
-      - ./db/todos.sql:/tmp/todos.sql
+      - ./db/todos.sql:/tmp/
   bigquery-emulator:
     image: ghcr.io/goccy/bigquery-emulator:latest
     volumes:

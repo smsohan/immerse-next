@@ -9,7 +9,7 @@ flowchart TB
     CT -- gcloud proxy --> nginx
     subgraph Cloud Run
     nginx -- custom header --> app
-    prom(Prometheius Collector) -- /api/metrics --> app(Next.JS App)
+    prom(Prometheus Collector) -- /api/metrics --> app(Next.JS App)
     end
     app -- View Stats --> redis(Redis Memorystore)
     app -- Passwords / Promethous Config --> SM(Secret Manager)
