@@ -16,7 +16,7 @@ require('dotenv').config();
         const messagePayload = buff.toString('base64');
         const port = process.env.PORT || '3000';
         const url = `http://localhost:${port}/api/todos/listen`
-        const body = JSON.stringify({ messageId: randomUUID().toString(), message: {data: messagePayload }});
+        const body = JSON.stringify({message: {messageId: randomUUID().toString(), data: messagePayload }});
 
         console.log(`sending ${body} to ${url}`)
 
