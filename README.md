@@ -53,12 +53,6 @@ $ gcloud run services proxy immerse-next --region us-central1
 # SSH Tunnel to use the app from the laptop
 $ ssh -L 8000:localhost:8080 sohan-glinux.c.googlers.com
 
-# Run the pub/sub emulator
-$ gcloud beta emulators pubsub start --project=sohansm-project
-
-# Set the env variables so that local can connect to the emulator
-$ $(gcloud beta emulators pubsub env-init)
-
 # Build the container image
 $ gcloud builds submit --config cloudbuild.yaml
 
