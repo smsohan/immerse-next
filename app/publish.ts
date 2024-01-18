@@ -9,6 +9,17 @@ export interface Message {
     createdAt?: Date
     messageId?: string
 }
+
+export interface MessagePayload {
+    messageId: string
+    data: string
+}
+export function createMessageFromPayload(payload: MessagePayload): Message{
+    const data = Buffer.from(payload.data, "base64").toString().trim();
+    const message = JSON.parse(data) as Message;
+    message.messageId = payload.messageId;
+    return message;
+}
 export default async function publish(message: Message): Promise<void>{
     const pubsub = new PubSub({projectId: process.env.PROJECT_ID});
     const [topic] = await pubsub.topic(process.env.PUBSUB_TOPIC).get({autoCreate: true})
