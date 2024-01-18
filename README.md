@@ -42,8 +42,14 @@ This is an over-architected minimalist to-do list application that uses the foll
 ## Useful commands
 
 ```bash
-# bring up nginx, mysql, redis, bq emulator, and promethous collector
-$ docker-compose up -d
+# Initial DB setup
+$ ./dev/bootstrap.sh
+
+# Bring up nginx, mysql, redis, bq emulator, promethous collector, and the nodejs app
+$ npm run dev
+
+# Bring up the local pubsub subscriber
+$ npm run sub
 
 # Connect to CloudSQL from local
 $ gcloud beta sql connect immerse-db-instance -u immerse-db-user
