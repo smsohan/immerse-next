@@ -76,7 +76,7 @@ $ gcloud secrets versions access latest --secret=prometheus_config
 ## Deployment
 
 ```mermaid
-flowchart LR
+flowchart TB
 gcloud -- Buildpacks --> CB[Cloud Build] --> AR[Artifact Registry] --> Image[Image SHA] -->
 Terraform --> KMS
 Terraform -- TF State --> GCS
