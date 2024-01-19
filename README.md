@@ -72,3 +72,19 @@ $ terraform taint google_secret_manager_secret.prometheus_config
 # Read the latest config
 $ gcloud secrets versions access latest --secret=prometheus_config
 ```
+
+## Deployment
+
+```mermaid
+flowchart LR
+gcloud -- Buildpacks --> CB[Cloud Build] --> AR[Artifact Registry] --> Image[Image SHA] -->
+Terraform --> KMS
+Terraform -- TF State --> GCS
+Terraform --> SM[Secret Manager]
+Terraform --> CR[Cloud Run]
+Terraform --> Redis
+Terraform --> CloudSQL
+Terraform --> MySQL
+Terraform --> PubSub
+Terraform --> BigQuery
+```

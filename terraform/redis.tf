@@ -8,7 +8,7 @@ resource "google_project_iam_binding" "binding" {
 }
 
 resource "google_redis_instance" "redis" {
-  name       = "immerse-next-redis"
+  name       = "${var.name}-redis"
   tier       = "STANDARD_HA"
   region   = var.region
   memory_size_gb = 1
