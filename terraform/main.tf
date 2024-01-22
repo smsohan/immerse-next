@@ -98,6 +98,13 @@ resource "google_cloud_run_v2_service" "immerse-next" {
         tcp_socket {
           port = 8080
         }
+        # http_get {
+        #   port = 8080
+        #   path = "/api/ready"
+        #   http_headers {
+        #     name =
+        #   }
+        # }
       }
 
     }
